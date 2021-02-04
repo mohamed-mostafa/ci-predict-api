@@ -1,11 +1,11 @@
-const API_NAME = "Bl-Wahda";
+const API_NAME = "Authorship";
 
 module.exports = {
   api: {
     name: API_NAME,
     version: "1.0",
     host: "localhost",
-    port: process.env.PORT || 8081,
+    port: process.env.PORT || 8080,
     contextStoreName: "api",
   },
   common: {
@@ -15,14 +15,13 @@ module.exports = {
   locales: {
     dataPath: `${__dirname}/locales`,
     dataExtension: ".json",
-    supportedLocales: ["en", "ar", "all", "_"],
+    supportedLocales: ["en", "ar", "_"],
   },
   storage: {
-    accessKey: "6QPE347OHBBGIMG6XPAY",
-    secretKey: "1lj2OhahQFhBG0AqpeKCSIsiwSiVo9o4CWb+/y00ODA",
-    baseUrl: "digitaloceanspaces.com",
-    bucket: "bl-wahda",
-    region: "fra1",
+    accessKey: "4DBFU253xwQQMV2u",
+    secretKey: "fr7MRU3RbxBtX5zP",
+    baseUrl: "http://163.172.122.112:5535",
+    bucket: "authorship",
     folder: "dev",
   },
   authentication: {
@@ -30,6 +29,6 @@ module.exports = {
       "thisIsVerySecretKeyNoOneCanImagineThatThisIsTheKeyAndEvenIfHeImaginedThatThisIsTheKeyHeWillNotExpectThatIWroteThatHeImaginedThatIsTheKey",
   },
   mongo: {
-    url: `mongodb://pet:MkK8p778qY3zLs5W@165.22.69.43:27018/petdev?authSource=petdev&readPreference=primary&appname=MongoDB%20Compass&ssl=false`,
+    url: `mongodb://localhost:27017/authorship`,
   },
 };

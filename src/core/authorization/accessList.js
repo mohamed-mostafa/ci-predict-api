@@ -1,4 +1,5 @@
 const aclResources = {
+  AUTHENTICATION: 'authentication'
 };
 
 const roles = {
