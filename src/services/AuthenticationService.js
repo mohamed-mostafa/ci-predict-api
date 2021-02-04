@@ -4,7 +4,10 @@ const { roles } = require("../core/authorization/accessList");
 
 class AuthenticationService extends baseService {
   async login(data) {
-    const existUser = await User.getOne({ email: data.email }, { lean: true });
+    const existUser = await User.getOne(
+      { email: data.email },
+      { lean: true, fields: { researches: 0 } }
+    );
     if (!existUser) {
       throw new this.NotFoundError("wrongUsernameOrPassword");
     }

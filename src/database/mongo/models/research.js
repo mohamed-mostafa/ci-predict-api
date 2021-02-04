@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { Schema, Types } = mongoose;
 const researchStatusEnum = ["NEW", "DONE", "IN PROGRESS", "REMOVED", "MOVED"];
 const researchSchema = new Schema({
+  image: { type: String, trim: true },
   name: { type: String, trim: true },
   abstract: { type: String, trim: true },
   status: {
@@ -10,18 +11,27 @@ const researchSchema = new Schema({
     enum: researchStatusEnum,
     default: "NEW",
   },
-  investigators: [{ type: Types.ObjectId, ref: "User", trim: true }],
+  investigators: [
+    {
+      id: { type: Types.ObjectId, ref: "User", trim: true },
+      status: {
+        type: String,
+        enum: ["Approved", "Pending", "Rejected"],
+        default: "Rejected",
+      },
+    },
+  ],
   commonParameters: {
-    submission: { type: Boolean },
-    irb: { type: Boolean },
-    manuscriptDrafting: { type: Number, min: 0, max: 100 },
-    fund: { type: Number, min: 0, max: 100 },
-    dataCollection: { type: Number, min: 0, max: 100 },
-    studyPlan: { type: Number, min: 0, max: 100 },
-    responsibility: { type: Number, min: 0, max: 100 },
-    manuscriptReview: { type: Number, min: 0, max: 100 },
-    revising: { type: Number, min: 0, max: 100 },
-    citation: { type: Number, min: 0, max: 100 },
+    submission: { type: Boolean, default: false },
+    irb: { type: Boolean, default: false },
+    manuscriptDrafting: { type: Number, min: 0, max: 100, default: 0 },
+    fund: { type: Number, min: 0, max: 100, default: 0 },
+    dataCollection: { type: Number, min: 0, max: 100, default: 0 },
+    studyPlan: { type: Number, min: 0, max: 100, default: 0 },
+    responsibility: { type: Number, min: 0, max: 100, default: 0 },
+    manuscriptReview: { type: Number, min: 0, max: 100, default: 0 },
+    revising: { type: Number, min: 0, max: 100, default: 0 },
+    citation: { type: Number, min: 0, max: 100, default: 0 },
   },
 });
 

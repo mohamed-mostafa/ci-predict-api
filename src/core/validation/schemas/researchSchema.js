@@ -1,0 +1,9 @@
+module.exports = {
+  type: "object",
+  properties: {
+    name: { type: "string" },
+    abstract: { type: "string" },
+  },
+  required: ["name", "abstract"],
+  additionalProperties: false,
+};
