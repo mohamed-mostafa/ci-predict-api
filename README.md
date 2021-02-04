@@ -1,1 +1,1 @@
-Bl-Wahda Application
+Authorship Application
