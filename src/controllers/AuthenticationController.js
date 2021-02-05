@@ -31,9 +31,9 @@ class AuthenticationController extends BaseController {
         type: "object",
         properties: {
           password: { type: "string", minLength: 6, maxLength: 64 },
-          email: { type: "string", format: "email" },
+          username: { type: "string", format: "email" },
         },
-        required: ["email", "password"],
+        required: ["username", "password"],
       },
       ctx.request.body
     );

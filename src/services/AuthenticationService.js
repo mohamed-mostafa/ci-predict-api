@@ -5,7 +5,7 @@ const { roles } = require("../core/authorization/accessList");
 class AuthenticationService extends baseService {
   async login(data) {
     const existUser = await User.getOne(
-      { email: data.email },
+      { email: data.username },
       { lean: true, fields: { researches: 0 } }
     );
     if (!existUser) {

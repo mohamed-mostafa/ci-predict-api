@@ -5,6 +5,7 @@ const researchSchema = new Schema({
   image: { type: String, trim: true },
   name: { type: String, trim: true },
   abstract: { type: String, trim: true },
+  progress: { type: Number, default: 0 },
   status: {
     type: String,
     trim: true,

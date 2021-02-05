@@ -20,6 +20,9 @@ class ResearchService extends baseService {
     if (filters.role) {
       query.roles = filters.role;
     }
+    if (nParams.pagination) {
+      pagination = this.utils.parseBoolean(nParams.pagination);
+    }
 
     nParams.lean = true;
     return Research.getAll(query, nParams, pagination);
