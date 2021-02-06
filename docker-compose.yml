@@ -7,8 +7,8 @@ services:
             dockerfile: Dockerfile
         image: api
         ports:
-            - 8080:8080
-        container_name: api
+            - 8081:8081
+        container_name: authorship-api
         restart: unless-stopped
         environment:
             VIRTUAL_HOST: api.blwahda.com
