@@ -5,7 +5,7 @@ module.exports = {
     name: API_NAME,
     version: "1.0",
     host: "localhost",
-    port: process.env.PORT || 8080,
+    port: process.env.PORT || 8081,
     contextStoreName: "api",
   },
   common: {
