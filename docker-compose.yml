@@ -6,7 +6,7 @@ services:
             context: .
             dockerfile: Dockerfile
         image: authorship-api
-        container_name: web-authorship
+        container_name: authorship-api
         ports:
             - 8081:8081
         restart: unless-stopped
