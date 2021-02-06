@@ -1,14 +1,14 @@
 version: '3'
 
 services:
-    api:
+    api-authorship:
         build:
             context: .
             dockerfile: Dockerfile
         image: api
         ports:
             - 8081:8081
-        container_name: authorship-api
+        container_name: api-authorship
         restart: unless-stopped
         environment:
             VIRTUAL_HOST: api.blwahda.com
