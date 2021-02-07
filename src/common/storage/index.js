@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 const _ = require("lodash");
 const path = require("path");
 const config = require("../../config");
@@ -7,18 +8,17 @@ const mime = require("mime-types");
 
 class Storage {
   constructor() {
-    const spacesEndpoint = new AWS.Endpoint(
-      `${config.storage.region}.${config.storage.baseUrl}`
-    );
+    const spacesEndpoint = new AWS.Endpoint(`${config.storage.baseUrl}`);
     AWS.config.update({
       correctClockSkew: true,
     });
-
     this.s3 = new AWS.S3({
       endpoint: spacesEndpoint,
+      s3ForcePathStyle: true,
       accessKeyId: config.storage.accessKey,
       secretAccessKey: config.storage.secretKey,
     });
+    this.createBucket();
   }
 
   getPublicUrl(fileName) {}
@@ -39,10 +39,12 @@ class Storage {
         partSize: 10 * 1024 * 1024, // 10 MB
         queueSize: 10,
       };
+
       this.s3.upload(params, options, function (err, data) {
         if (!err) {
           resolve(data.Location); // successful response
         } else {
+          console.log(err);
           reject(err); // an error occurred
         }
       });
@@ -50,19 +52,23 @@ class Storage {
   }
 
   async delete(urls) {
-    let rFiles = urls;
-    if (_.isNil(urls)) {
-      return;
+    try {
+      let rFiles = urls;
+      if (_.isNil(urls)) {
+        return;
+      }
+      if (!_.isArray(urls)) {
+        rFiles = [urls];
+      }
+      const tasks = [];
+      for (let i = 0; i < rFiles.length; i++) {
+        const file = rFiles[i];
+        tasks.push(this.remove(file));
+      }
+      return await Promise.all(tasks);
+    } catch (err) {
+      throw err;
     }
-    if (!_.isArray(urls)) {
-      rFiles = [urls];
-    }
-    const tasks = [];
-    for (let i = 0; i < rFiles.length; i++) {
-      const file = rFiles[i];
-      tasks.push(this.remove(file));
-    }
-    return await Promise.all(tasks);
   }
 
   async remove(url) {
@@ -84,24 +90,46 @@ class Storage {
   }
 
   async save(files) {
-    let rFiles = files;
-    if (_.isNil(files)) {
-      return;
+    try {
+      let rFiles = files;
+      if (_.isNil(files)) {
+        return;
+      }
+      if (!_.isArray(files)) {
+        rFiles = [files];
+      }
+      const tasks = [];
+      for (let i = 0; i < rFiles.length; i++) {
+        const file = rFiles[i];
+        tasks.push(this.upload(file));
+      }
+      return await Promise.all(tasks);
+    } catch (err) {
+      throw err;
     }
-    if (!_.isArray(files)) {
-      rFiles = [files];
-    }
-    const tasks = [];
-    for (let i = 0; i < rFiles.length; i++) {
-      const file = rFiles[i];
-      tasks.push(this.upload(file));
-    }
-    return await Promise.all(tasks);
   }
 
   static _getKeyFromUrl(url) {
     const key = new URL(url).pathname;
     return key.substring(1, key.length);
+  }
+
+  async createBucket() {
+    const bucketParams = {
+      Bucket: config.storage.bucket,
+      ACL: "public-read",
+    };
+    return new Promise((resolve, reject) => {
+      this.s3.createBucket(bucketParams, function (err, data) {
+        if (err) {
+          console.log("Error", err);
+          reject(err);
+        } else {
+          console.log("Success", data);
+          resolve(data);
+        }
+      });
+    });
   }
 }
 

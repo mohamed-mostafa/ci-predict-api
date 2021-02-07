@@ -71,6 +71,7 @@ class ResearchService extends baseService {
     }
     if (files && files.image) {
       data.image = (await this.storage.save(files.image))[0];
+      console.log("here");
     }
     const research = await Research.create(data);
     return research;
