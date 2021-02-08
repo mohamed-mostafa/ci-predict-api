@@ -45,15 +45,24 @@ class ResearchController extends BaseController {
     ctx.body = await this.service.getAll(ctx.request.query, ctx.request.query);
   }
 
-  async getOne(ctx) {}
+  async getOne(ctx) {
+    await this.authorize(ctx, ["readAny"]);
+    ctx.body = await this.service.getOne(ctx.params.id);
+  }
 
   async getInvestigators(ctx) {
     await this.authorize(ctx, ["readAny"]);
-    // console.log(ctx.params);
     ctx.body = await this.service.getInvestigators(ctx.params.id);
   }
 
-  async participate(ctx) {}
+  async participate(ctx) {
+    console.log("here");
+    await this.authorize(ctx, ["readAny"]);
+    ctx.body = await this.service.participate({
+      data: ctx.request.body,
+      researchId: ctx.params.id,
+    });
+  }
 
   async update(ctx) {}
 }

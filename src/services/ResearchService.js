@@ -59,7 +59,7 @@ class ResearchService extends baseService {
     return Research.updateById(id, data, { new: true, lean: true });
   }
 
-  async participate({ userId, researchId }) {
+  async participate({ data, researchId }) {
     const research = await Research.getById(researchId);
     if (!research) {
       throw new this.NotFoundError(
@@ -68,7 +68,7 @@ class ResearchService extends baseService {
     }
     return Research.updateById(
       researchId,
-      { $push: { ivestigators: { id: userId } } },
+      { $push: { investigators: data } },
       { new: true, lean: true }
     );
   }
