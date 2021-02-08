@@ -1,6 +1,7 @@
 const aclResources = {
   AUTHENTICATION: "authentication",
   RESEARCH: "research",
+  USER: "user",
 };
 
 const roles = {
@@ -22,6 +23,10 @@ const aclRoles = {
     [aclResources.RESEARCH]: {
       "read:any": ["*"],
       "update:any": ["investigators", "commonParameters"],
+    },
+    [aclResources.USER]: {
+      "read:any": ["*"],
+      "update:any": ["*"],
     },
   },
   public: {

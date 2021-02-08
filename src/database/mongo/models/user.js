@@ -1,19 +1,30 @@
 const mongoose = require("mongoose");
 const { Schema, Types } = mongoose;
 const { rolesEnum } = require("../../../core/authorization/accessList");
+
 const parameterSchema = new Schema({
-  studyDesign: { type: Boolean },
-  monitoring: { type: Boolean },
+  studyDesign: { type: Boolean, default: false },
+  monitoring: { type: Boolean, default: false },
+  submission: { type: Boolean, default: false },
+  manuscriptDrafting: { type: Number, default: 0, min: 0, max: 0 },
+  fund: { type: Number, default: 0, min: 0, max: 0 },
   groupHiring: { type: Boolean },
-  idea: { type: Boolean },
-  dataAnalysis: { type: Boolean },
-  inquiry: { type: Boolean },
-  presentation: { type: Boolean },
+  dataCollection: { type: Number, default: 0, min: 0, max: 0 },
+  studyPlan: { type: Number, default: 0, min: 0, max: 0 },
+  idea: { type: Boolean, default: false },
+  manuscriptReview: { type: Number, default: 0, min: 0, max: 0 },
+  revising: { type: Number, default: 0, min: 0, max: 0 },
+  citation: { type: Number, default: 0, min: 0, max: 0 },
+  irb: { type: Number, default: 0, min: 0, max: 0 },
+  dataAnalysis: { type: Boolean, default: false },
+  inquiry: { type: Boolean, default: false },
+  presentation: { type: Boolean, default: false },
 });
 const researchSchema = new Schema({
   research: { type: Types.ObjectId, ref: "Research", trim: true },
   parameters: parameterSchema,
 });
+
 const userSchema = new Schema({
   firstName: { type: String, trim: true },
   lastName: { type: String, trim: true },
@@ -29,9 +40,6 @@ const userSchema = new Schema({
   address2: { type: String, trim: true },
   roles: [{ type: String, enum: rolesEnum }],
   researches: [researchSchema],
-  // fcm_token: { type: String },
-  // fcmToken: { type: String, trim: true },
-  // addresses: [addressSchema],
 });
 
 module.exports = mongoose.model("User", userSchema);
