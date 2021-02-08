@@ -22,6 +22,11 @@ class ResearchController extends BaseController {
         { method: "PUT", path: "/:id", handler: "update", multipart },
         { method: "GET", path: "/:id", handler: "getOne" },
         { method: "PUT", path: "/:id/participate", handler: "participate" },
+        {
+          method: "GET",
+          path: "/:id/investigators",
+          handler: "getInvestigators",
+        },
       ],
     });
   }
@@ -41,6 +46,12 @@ class ResearchController extends BaseController {
   }
 
   async getOne(ctx) {}
+
+  async getInvestigators(ctx) {
+    await this.authorize(ctx, ["readAny"]);
+    // console.log(ctx.params);
+    ctx.body = await this.service.getInvestigators(ctx.params.id);
+  }
 
   async participate(ctx) {}
 

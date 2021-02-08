@@ -36,6 +36,15 @@ class ResearchService extends baseService {
     return research;
   }
 
+  async getInvestigators(id) {
+    const research = await Research.getById(id, { lean: true });
+    if (!research) {
+      throw new this.NotFoundError(`there is no research with id ${id}`);
+    }
+    const investigators = research.investigators;
+    return investigators;
+  }
+
   async update({ data, id, files }) {
     const research = await Research.getById(id);
     if (!research) {
