@@ -1,19 +1,15 @@
 version: '3'
 
 services:
-    api:
+    authorship-api:
         build:
             context: .
             dockerfile: Dockerfile
-        image: api
+        image: authorship-api
         ports:
-            - 8080:8080
-        container_name: api
+            - 8081:8081
+        container_name: authorship-api
         restart: unless-stopped
-        environment:
-            VIRTUAL_HOST: api.blwahda.com
-            LETSENCRYPT_HOST: api.blwahda.com
-            LETSENCRYPT_EMAIL: blwahdastores@gmail.com
 
 networks:
     default:

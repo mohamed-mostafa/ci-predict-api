@@ -48,6 +48,7 @@ class BaseModel {
         }
       }
     }
+
     return func;
   }
 
@@ -102,12 +103,11 @@ class BaseModel {
     return q.exec();
   }
 
-  async getAll(query, params = {}, paginate = true) {
-    const { page = 0, limit = 10, sort } = params;
+  async getAll(query = {}, params = {}, paginate = true) {
+    const { page, limit = 10, sort } = params;
 
     const q = this._buildQuery(this.model.find(query || {}), params);
     if (paginate) {
-      console.log(params);
       q.skip(parseInt(limit) * parseInt(page));
       q.limit(parseInt(limit));
     }
