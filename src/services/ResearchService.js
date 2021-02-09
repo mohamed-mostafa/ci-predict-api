@@ -29,7 +29,9 @@ class ResearchService extends baseService {
   }
 
   async getOne(id) {
-    const research = await Research.getById(id);
+    const research = await Research.getById(id, {
+      fields: { commonParameters: 0 },
+    });
     if (!research) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
     }
@@ -80,9 +82,21 @@ class ResearchService extends baseService {
     }
     if (files && files.image) {
       data.image = (await this.storage.save(files.image))[0];
-      console.log("here");
     }
+    data.commonParameters = {};
     const research = await Research.create(data);
+    return research;
+  }
+
+  async getParameters(researchId) {
+    const research = Research.getById(researchId, {
+      fields: { commonParameters: 1 },
+    });
+    if (!research) {
+      throw new this.NotFoundError(
+        `there is no research with id ${researchId}`
+      );
+    }
     return research;
   }
 }

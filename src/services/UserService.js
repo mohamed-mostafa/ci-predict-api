@@ -25,11 +25,11 @@ class UserService extends baseService {
     }
 
     nParams.lean = true;
-    return Research.getAll(query, nParams, pagination);
+    return User.getAll(query, nParams, pagination);
   }
 
   async getOne(id) {
-    const research = await Research.getById(id);
+    const research = await User.getById(id);
     if (!research) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
     }
@@ -37,7 +37,7 @@ class UserService extends baseService {
   }
 
   async getInvestigators(id) {
-    const research = await Research.getById(id, { lean: true });
+    const research = await User.getById(id, { lean: true });
     if (!research) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
     }
@@ -46,7 +46,7 @@ class UserService extends baseService {
   }
 
   async update({ data, id, files }) {
-    const research = await Research.getById(id);
+    const research = await User.getById(id);
     if (!research) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
     }
@@ -56,31 +56,30 @@ class UserService extends baseService {
       }
       if (files.image) data.image = (await this.storage.save(files.image))[0];
     }
-    return Research.updateById(id, data, { new: true, lean: true });
+    return User.updateById(id, data, { new: true, lean: true });
   }
 
   async participate({ userId, researchId }) {
-    const user = await User.getById(researchId);
+    const user = await User.getById(userId);
     if (!user) {
       throw new this.NotFoundError(`there is no user with id ${userId}`);
     }
     return User.updateById(
-      researchId,
-      { $push: { researches: { id: researchId } } },
+      userId,
+      { $push: { researches: { id: researchId, parameters: {} } } },
       { new: true, lean: true }
     );
   }
 
   async create({ data, files }) {
-    const existResearch = await Research.getOne({ name: data.name });
+    const existResearch = await User.getOne({ name: data.name });
     if (existResearch) {
       throw new this.ValidationError("Research is already registered");
     }
     if (files && files.image) {
       data.image = (await this.storage.save(files.image))[0];
-      console.log("here");
     }
-    const research = await Research.create(data);
+    const research = await User.create(data);
     return research;
   }
 }

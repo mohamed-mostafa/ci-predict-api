@@ -21,7 +21,7 @@ const parameterSchema = new Schema({
   presentation: { type: Boolean, default: false },
 });
 const researchSchema = new Schema({
-  research: { type: Types.ObjectId, ref: "Research", trim: true },
+  id: { type: Types.ObjectId, ref: "Research", trim: true },
   parameters: parameterSchema,
 });
 
