@@ -32,6 +32,11 @@ class ResearchController extends BaseController {
           path: "/:id/parameters",
           handler: "getParameters",
         },
+        {
+          method: "PUT",
+          path: "/:id/parameters",
+          handler: "updateParameters",
+        },
       ],
     });
   }
@@ -74,6 +79,14 @@ class ResearchController extends BaseController {
   }
 
   async update(ctx) {}
+
+  async updateParameters(ctx) {
+    await this.authorize(ctx, ["updateAny"]);
+    ctx.body = await this.service.updateParameters({
+      data: ctx.request.body,
+      id: ctx.params.id,
+    });
+  }
 }
 
 module.exports = ResearchController;

@@ -17,6 +17,12 @@ class UserController extends BaseController {
       service: UserService,
       routes: [
         { method: "PUT", path: "/:id/participate", handler: "participate" },
+        { method: "GET", path: "/:id/parameters", handler: "parameters" },
+        {
+          method: "PUT",
+          path: "/:id/parameters",
+          handler: "updateParameters",
+        },
       ],
     });
   }
@@ -39,7 +45,25 @@ class UserController extends BaseController {
     });
   }
 
+  async parameters(ctx) {
+    await this.authorize(ctx, ["readAny"]);
+    ctx.body = await this.service.parameters(
+      ctx.params.id,
+      ctx._locals.user._id
+    );
+  }
+
   async update(ctx) {}
+
+  async updateParameters(ctx) {
+    await this.authorize(ctx, ["updateAny"]);
+    console.log(ctx.request.body);
+    ctx.body = await this.service.updateParameters(
+      ctx.params.id,
+      ctx._locals.user._id,
+      ctx.request.body
+    );
+  }
 }
 
 module.exports = UserController;

@@ -61,6 +61,18 @@ class ResearchService extends baseService {
     return Research.updateById(id, data, { new: true, lean: true });
   }
 
+  async updateParameters({ data, id }) {
+    const research = await Research.getById(id);
+    if (!research) {
+      throw new this.NotFoundError(`there is no research with id ${id}`);
+    }
+    return Research.updateById(
+      id,
+      { $set: { commonParameters: data } },
+      { new: true, lean: true }
+    );
+  }
+
   async participate({ data, researchId }) {
     const research = await Research.getById(researchId);
     if (!research) {

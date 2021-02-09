@@ -82,6 +82,36 @@ class UserService extends baseService {
     const research = await User.create(data);
     return research;
   }
+
+  async parameters(researchId, userId) {
+    const user = await User.getById(userId);
+    if (!user) {
+      throw new this.NotFoundError(`there is no user with id ${userId}`);
+    }
+    const parameters = user.researches.find((research) => {
+      return research.id.toString() === researchId;
+    });
+    if (!parameters) {
+      throw new this.NotFoundError(
+        `there is no research with id ${researchId}`
+      );
+    }
+    return parameters.parameters;
+  }
+
+  async updateParameters(researchId, userId, data) {
+    const user = await User.getById(userId);
+    if (!user) {
+      throw new this.NotFoundError(`there is no user with id ${userId}`);
+    }
+    user.researches.forEach((element) => {
+      if (element.id.toString() === researchId) {
+        element.parameters = data;
+      }
+    });
+
+    return User.updateById(userId, user, { lean: true });
+  }
 }
 
 module.exports = new UserService();

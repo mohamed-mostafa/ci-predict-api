@@ -16,8 +16,8 @@ const researchSchema = new Schema({
     {
       id: { type: Types.ObjectId, ref: "User", trim: true },
       name: { type: String, trim: true },
-      rank: { type: Number, trim: true },
-      percentage: { type: Number, trim: true },
+      rank: { type: Number, trim: true, default: 0 },
+      percentage: { type: Number, trim: true, default: 0 },
       status: {
         type: String,
         enum: ["Approved", "Pending", "Rejected"],
@@ -34,14 +34,14 @@ const researchSchema = new Schema({
   commonParameters: {
     submission: { type: Boolean, default: false },
     irb: { type: Boolean, default: false },
-    manuscriptDrafting: { type: Number, min: 0, max: 100, default: 0 },
-    fund: { type: Number, min: 0, max: 100, default: 0 },
-    dataCollection: { type: Number, min: 0, max: 100, default: 0 },
-    studyPlan: { type: Number, min: 0, max: 100, default: 0 },
-    responsibility: { type: Number, min: 0, max: 100, default: 0 },
-    manuscriptReview: { type: Number, min: 0, max: 100, default: 0 },
-    revising: { type: Number, min: 0, max: 100, default: 0 },
-    citation: { type: Number, min: 0, max: 100, default: 0 },
+    manuscriptDrafting: { type: Number, min: 0, max: 100, default: 100 },
+    fund: { type: Number, min: 0, max: 100, default: 100 },
+    dataCollection: { type: Number, min: 0, max: 100, default: 100 },
+    studyPlan: { type: Number, min: 0, max: 100, default: 100 },
+    responsibility: { type: Number, min: 0, max: 100, default: 100 },
+    manuscriptReview: { type: Number, min: 0, max: 100, default: 100 },
+    revising: { type: Number, min: 0, max: 100, default: 100 },
+    citation: { type: Number, min: 0, max: 100, default: 100 },
   },
 });
 
