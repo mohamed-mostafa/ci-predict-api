@@ -1,5 +1,25 @@
 const baseService = require("../core/baseService");
-const { Research } = require("../database/mongo/models");
+const { Research, User } = require("../database/mongo/models");
+
+const weights = {
+  studyDesign: 0.069,
+  monitoring: 0.068,
+  submission: 0.067,
+  manuscriptDrafting: 0.065,
+  fund: 0.064,
+  groupHiring: 0.063,
+  dataCollection: 0.062,
+  studyPlan: 0.061,
+  responsibility: 0.059,
+  idea: 0.059,
+  manuscriptReview: 0.059,
+  revising: 0.057,
+  citation: 0.056,
+  irb: 0.052,
+  dataAnalysis: 0.052,
+  inquiry: 0.048,
+  presentation: 0.04,
+};
 
 class ResearchService extends baseService {
   async getAll(filters, params, pagination = false) {
@@ -85,6 +105,57 @@ class ResearchService extends baseService {
       { $push: { investigators: data } },
       { new: true, lean: true }
     );
+  }
+
+  async calcRank({ researchId, userId }) {
+    const research = await Research.getById(researchId, {
+      fields: { investigators: 1 },
+    });
+    if (!research) {
+      throw new this.NotFoundError(
+        `there is no research with id ${researchId}`
+      );
+    }
+
+    const investigator = research.investigators.find(
+      (element) => element.id.toString() === userId.toString()
+    );
+    if (!investigator) {
+      throw new this.NotFoundError(`You are not participated in this research`);
+    }
+    const parameters = (
+      await User.getOne(
+        { _id: userId, "researches.id": researchId },
+        { fields: { "researches.$": 1 } }
+      )
+    ).researches[0].parameters;
+    investigator.score = 0;
+    for (const prop in parameters) {
+      investigator.score += parameters[prop] * weights[prop];
+    }
+    investigator.rankStatus = "Accepted";
+    if (
+      !parameters.responsibility ||
+      !parameters.manuscriptReview ||
+      !parameters.revising ||
+      !parameters.studyPlan
+    ) {
+      investigator.rankStatus = "Rejected";
+    }
+    return Research.updateOne(
+      {
+        $and: [{ _id: researchId }, { "investigators.id": userId }],
+      },
+      { $set: { "investigators.$": investigator } }
+    );
+  }
+
+  async rank(id) {
+    const investigators = await this.getInvestigators(id);
+    investigators.sort((a, b) => {
+      return b.score - a.score;
+    });
+    return investigators;
   }
 
   async create({ data, files }) {

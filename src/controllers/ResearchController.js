@@ -37,6 +37,16 @@ class ResearchController extends BaseController {
           path: "/:id/parameters",
           handler: "updateParameters",
         },
+        {
+          method: "GET",
+          path: "/:id/rank",
+          handler: "rank",
+        },
+        {
+          method: "PUT",
+          path: "/:id/rank",
+          handler: "calcRank",
+        },
       ],
     });
   }
@@ -76,6 +86,19 @@ class ResearchController extends BaseController {
   async getParameters(ctx) {
     await this.authorize(ctx, ["readAny"]);
     ctx.body = await this.service.getParameters(ctx.params.id);
+  }
+
+  async rank(ctx) {
+    await this.authorize(ctx, ["readAny"]);
+    ctx.body = await this.service.rank(ctx.params.id);
+  }
+
+  async calcRank(ctx) {
+    await this.authorize(ctx, ["updateAny"]);
+    ctx.body = await this.service.calcRank({
+      researchId: ctx.params.id,
+      userId: ctx._locals.user._id,
+    });
   }
 
   async update(ctx) {}

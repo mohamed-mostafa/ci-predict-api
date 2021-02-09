@@ -16,8 +16,8 @@ const researchSchema = new Schema({
     {
       id: { type: Types.ObjectId, ref: "User", trim: true },
       name: { type: String, trim: true },
-      rank: { type: Number, trim: true, default: 0 },
       percentage: { type: Number, trim: true, default: 0 },
+      score: { type: Number, trim: true, default: 0 },
       status: {
         type: String,
         enum: ["Approved", "Pending", "Rejected"],
