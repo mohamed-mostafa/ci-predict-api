@@ -57,7 +57,6 @@ class UserController extends BaseController {
 
   async updateParameters(ctx) {
     await this.authorize(ctx, ["updateAny"]);
-    console.log(ctx.request.body);
     ctx.body = await this.service.updateParameters(
       ctx.params.id,
       ctx._locals.user._id,
