@@ -131,7 +131,11 @@ class ResearchService extends baseService {
     ).researches[0].parameters;
     investigator.score = 0;
     for (const prop in parameters) {
-      investigator.score += parameters[prop] * weights[prop];
+      if (typeof parameters[prop] === "number") {
+        investigator.score += (parameters[prop] / 100) * weights[prop];
+      } else {
+        if (parameters[prop]) investigator.score += weights[prop];
+      }
     }
     investigator.rankStatus = "Accepted";
     if (

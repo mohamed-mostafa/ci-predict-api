@@ -16,6 +16,7 @@ const parameterSchema = new Schema({
   revising: { type: Number, default: 0, min: 0, max: 0 },
   citation: { type: Number, default: 0, min: 0, max: 0 },
   irb: { type: Number, default: 0, min: 0, max: 0 },
+  responsibility: { type: Number, default: 0, min: 0, max: 0 },
   dataAnalysis: { type: Boolean, default: false },
   inquiry: { type: Boolean, default: false },
   presentation: { type: Boolean, default: false },
