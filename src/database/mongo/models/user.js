@@ -15,7 +15,7 @@ const parameterSchema = new Schema({
   manuscriptReview: { type: Number, default: 0, min: 0, max: 0 },
   revising: { type: Number, default: 0, min: 0, max: 0 },
   citation: { type: Number, default: 0, min: 0, max: 0 },
-  irb: { type: Number, default: 0, min: 0, max: 0 },
+  irb: { type: Boolean, default: false },
   responsibility: { type: Number, default: 0, min: 0, max: 0 },
   dataAnalysis: { type: Boolean, default: false },
   inquiry: { type: Boolean, default: false },

@@ -88,7 +88,7 @@ class ResearchService extends baseService {
     }
     return Research.updateById(
       id,
-      { $set: { commonParameters: data } },
+      { $set: { commonParameters: data.commonParameters } },
       { new: true, lean: true }
     );
   }
@@ -137,6 +137,7 @@ class ResearchService extends baseService {
         if (parameters[prop]) investigator.score += weights[prop];
       }
     }
+    investigator.score = Math.round(investigator.score * 100) / 100;
     investigator.rankStatus = "Accepted";
     if (
       !parameters.responsibility ||
