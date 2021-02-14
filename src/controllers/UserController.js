@@ -1,5 +1,6 @@
 const { aclResources } = require("../core/authorization/accessList");
 const BaseController = require("../core/baseController");
+const { userSchema } = require("../core/validation/schemas");
 const UserService = require("../services/UserService");
 
 const multipart = {
@@ -16,7 +17,12 @@ class UserController extends BaseController {
       path: "/users",
       service: UserService,
       routes: [
-        { method: "PUT", path: "/:id/participate", handler: "participate" },
+        { method: "PUT", path: "/:id/", handler: "update", multipart },
+        {
+          method: "PUT",
+          path: "/:id/participate",
+          handler: "participate",
+        },
         { method: "GET", path: "/:id/parameters", handler: "parameters" },
         {
           method: "PUT",
@@ -37,14 +43,6 @@ class UserController extends BaseController {
     ctx.body = await this.service.getOne(ctx.params.id);
   }
 
-  async participate(ctx) {
-    await this.authorize(ctx, ["updateAny"]);
-    ctx.body = await this.service.participate({
-      userId: ctx._locals.user._id,
-      researchId: ctx.request.body.researchId,
-    });
-  }
-
   async parameters(ctx) {
     await this.authorize(ctx, ["readAny"]);
     ctx.body = await this.service.parameters(
@@ -53,13 +51,30 @@ class UserController extends BaseController {
     );
   }
 
-  async update(ctx) {}
+  async update(ctx) {
+    await this.authorize(ctx, ["updateOwn"]);
+    const data = ctx.request.body;
+    await this.validate(userSchema, data, false);
+    ctx.body = await this.service.update({
+      id: ctx.params.id,
+      data: data,
+      files: ctx.request.files,
+    });
+  }
+
+  async participate(ctx) {
+    await this.authorize(ctx, ["updateOwn"]);
+    const data = ctx.request.body;
+    ctx.body = await this.service.participate({
+      id: ctx.params.id,
+      data: data,
+    });
+  }
 
   async updateParameters(ctx) {
-    await this.authorize(ctx, ["updateAny"]);
+    await this.authorize(ctx, ["updateOwn"]);
     ctx.body = await this.service.updateParameters(
       ctx.params.id,
-      ctx._locals.user._id,
       ctx.request.body
     );
   }

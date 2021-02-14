@@ -26,7 +26,8 @@ const aclRoles = {
     },
     [aclResources.USER]: {
       "read:any": ["*"],
-      "update:any": ["*"],
+      "read:own": ["*"],
+      "update:own": ["*"],
     },
   },
   public: {

@@ -59,11 +59,19 @@ class ResearchService extends baseService {
   }
 
   async getInvestigators(id) {
-    const research = await Research.getById(id, { lean: true });
+    const research = await Research.getById(id, {
+      lean: true,
+      populate: [["investigators", `firstName lastName image researches`]],
+    });
     if (!research) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
     }
     const investigators = research.investigators;
+    for (const investigator of investigators) {
+      investigator.researches = investigator.researches.find(
+        (element) => element.id.toString() === id
+      );
+    }
     return investigators;
   }
 
@@ -81,32 +89,6 @@ class ResearchService extends baseService {
     return Research.updateById(id, data, { new: true, lean: true });
   }
 
-  async updateParameters({ data, id }) {
-    const research = await Research.getById(id);
-    if (!research) {
-      throw new this.NotFoundError(`there is no research with id ${id}`);
-    }
-    return Research.updateById(
-      id,
-      { $set: { commonParameters: data.commonParameters } },
-      { new: true, lean: true }
-    );
-  }
-
-  async participate({ data, researchId }) {
-    const research = await Research.getById(researchId);
-    if (!research) {
-      throw new this.NotFoundError(
-        `there is no research with id ${researchId}`
-      );
-    }
-    return Research.updateById(
-      researchId,
-      { $push: { investigators: data } },
-      { new: true, lean: true }
-    );
-  }
-
   async calcRank({ researchId, userId }) {
     const research = await Research.getById(researchId, {
       fields: { investigators: 1 },
@@ -116,9 +98,10 @@ class ResearchService extends baseService {
         `there is no research with id ${researchId}`
       );
     }
+    console.log(research);
 
     const investigator = research.investigators.find(
-      (element) => element.id.toString() === userId.toString()
+      (element) => element.toString() === userId.toString()
     );
     if (!investigator) {
       throw new this.NotFoundError(`You are not participated in this research`);

@@ -23,6 +23,25 @@ const parameterSchema = new Schema({
 });
 const researchSchema = new Schema({
   id: { type: Types.ObjectId, ref: "Research", trim: true },
+  score: { type: Number, trim: true, default: 0 },
+  roles: [
+    {
+      type: String,
+      trim: true,
+      enum: ["admin", "investigator"],
+    },
+  ],
+  status: {
+    type: String,
+    enum: ["Approved", "Pending", "Declined"],
+    default: "Pending",
+    trim: true,
+  },
+  rankStatus: {
+    type: String,
+    enum: ["Accepted", "Rejected"],
+    trim: true,
+  },
   parameters: parameterSchema,
 });
 

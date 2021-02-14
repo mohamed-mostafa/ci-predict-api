@@ -46,27 +46,29 @@ class UserService extends baseService {
   }
 
   async update({ data, id, files }) {
-    const research = await User.getById(id);
-    if (!research) {
+    const user = await User.getById(id);
+    if (!user) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
     }
     if (files) {
-      if (files.image && research.image) {
-        await this.storage.delete(research.image);
+      if (files.image && user.image) {
+        await this.storage.delete(user.image);
       }
       if (files.image) data.image = (await this.storage.save(files.image))[0];
     }
     return User.updateById(id, data, { new: true, lean: true });
   }
 
-  async participate({ userId, researchId }) {
-    const user = await User.getById(userId);
+  async participate({ data, id, files }) {
+    const user = await User.getById(id);
     if (!user) {
-      throw new this.NotFoundError(`there is no user with id ${userId}`);
+      throw new this.NotFoundError(`there is no research with id ${id}`);
     }
+    data.roles = [];
+    data.roles.push("investigator");
     return User.updateById(
-      userId,
-      { $push: { researches: { id: researchId, parameters: {} } } },
+      id,
+      { $push: { researches: data } },
       { new: true, lean: true }
     );
   }
@@ -88,29 +90,28 @@ class UserService extends baseService {
     if (!user) {
       throw new this.NotFoundError(`there is no user with id ${userId}`);
     }
-    const parameters = user.researches.find((research) => {
+    const research = user.researches.find((research) => {
       return research.id.toString() === researchId;
     });
-    if (!parameters) {
+    if (!research) {
       throw new this.NotFoundError(
         `there is no research with id ${researchId}`
       );
     }
-    return parameters.parameters;
+    return research;
   }
 
-  async updateParameters(researchId, userId, data) {
+  async updateParameters(userId, data) {
     const user = await User.getById(userId);
     if (!user) {
       throw new this.NotFoundError(`there is no user with id ${userId}`);
     }
-    user.researches.forEach((element) => {
-      if (element.id.toString() === researchId) {
-        element.parameters = data;
+    for (let i = 0; i < user.researches.length; i++) {
+      if (data.id === user.researches[i].id.toString()) {
+        user.researches[i] = data;
       }
-    });
-
-    return User.updateById(userId, user, { lean: true });
+    }
+    return User.updateById(userId, user, { lean: true, new: true });
   }
 }
 

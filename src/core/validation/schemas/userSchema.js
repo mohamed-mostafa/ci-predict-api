@@ -4,7 +4,7 @@ module.exports = {
     firstName: { type: "string" },
     lastName: { type: "string" },
     email: { type: "string", format: "email" },
-    mobile: { type: "string", minLength: 4 },
+    mobile: { type: "string" },
     password: { type: "string", minLength: 6, maxLength: 64 },
     title: { type: "string" },
     city: { type: "string" },
@@ -12,6 +12,7 @@ module.exports = {
     zip: { type: "string" },
     address: { type: "string" },
     address2: { type: "string" },
+    researches: { type: "array" },
   },
   required: [
     "firstName",

@@ -21,7 +21,6 @@ class ResearchController extends BaseController {
         { method: "GET", path: "/", handler: "get" },
         { method: "PUT", path: "/:id", handler: "update", multipart },
         { method: "GET", path: "/:id", handler: "getOne" },
-        { method: "PUT", path: "/:id/participate", handler: "participate" },
         {
           method: "GET",
           path: "/:id/investigators",
@@ -31,11 +30,6 @@ class ResearchController extends BaseController {
           method: "GET",
           path: "/:id/parameters",
           handler: "getParameters",
-        },
-        {
-          method: "PUT",
-          path: "/:id/parameters",
-          handler: "updateParameters",
         },
         {
           method: "GET",
@@ -75,14 +69,6 @@ class ResearchController extends BaseController {
     ctx.body = await this.service.getInvestigators(ctx.params.id);
   }
 
-  async participate(ctx) {
-    await this.authorize(ctx, ["readAny"]);
-    ctx.body = await this.service.participate({
-      data: ctx.request.body,
-      researchId: ctx.params.id,
-    });
-  }
-
   async getParameters(ctx) {
     await this.authorize(ctx, ["readAny"]);
     ctx.body = await this.service.getParameters(ctx.params.id);
@@ -101,13 +87,14 @@ class ResearchController extends BaseController {
     });
   }
 
-  async update(ctx) {}
-
-  async updateParameters(ctx) {
+  async update(ctx) {
     await this.authorize(ctx, ["updateAny"]);
-    ctx.body = await this.service.updateParameters({
-      data: ctx.request.body,
+    const data = ctx.request.body;
+    await this.validate(researchSchema, data, false);
+    ctx.body = await this.service.update({
       id: ctx.params.id,
+      data: data,
+      files: ctx.request.files,
     });
   }
 }

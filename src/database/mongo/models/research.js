@@ -12,24 +12,7 @@ const researchSchema = new Schema({
     enum: researchStatusEnum,
     default: "NEW",
   },
-  investigators: [
-    {
-      id: { type: Types.ObjectId, ref: "User", trim: true },
-      name: { type: String, trim: true },
-      score: { type: Number, trim: true, default: 0 },
-      status: {
-        type: String,
-        enum: ["Approved", "Pending", "Rejected"],
-        default: "Pending",
-        trim: true,
-      },
-      rankStatus: {
-        type: String,
-        enum: ["Accepted", "Rejected"],
-        trim: true,
-      },
-    },
-  ],
+  investigators: [{ type: Types.ObjectId, ref: "User", trim: true }],
   commonParameters: {
     submission: { type: Boolean, default: false },
     irb: { type: Boolean, default: false },
