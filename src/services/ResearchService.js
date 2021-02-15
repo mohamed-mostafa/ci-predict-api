@@ -110,8 +110,6 @@ class ResearchService extends baseService {
       { fields: { "researches.$": 1 } }
     );
     const parameters = investigator.researches[0].parameters;
-    console.log(investigator);
-    console.log(parameters);
     investigator.researches[0].score = 0;
     for (const prop in parameters) {
       if (typeof parameters[prop] === "number") {
