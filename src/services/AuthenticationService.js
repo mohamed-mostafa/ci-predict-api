@@ -35,7 +35,7 @@ class AuthenticationService extends baseService {
       const [image] = await this.storage.save(files.image);
       data.image = image;
     }
-    data.password = await this.crypto.createHash(data.password);
+    data.password = this.crypto.createHash(data.password);
     data.roles = [roles.user];
     const user = await User.create(data);
     const token = await this.crypto.createJwtToken({
