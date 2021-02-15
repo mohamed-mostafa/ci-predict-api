@@ -99,41 +99,44 @@ class ResearchService extends baseService {
       );
     }
 
-    const investigator = research.investigators.find(
+    let investigator = research.investigators.find(
       (element) => element.toString() === userId.toString()
     );
     if (!investigator) {
       throw new this.NotFoundError(`You are not participated in this research`);
     }
-    const parameters = (
-      await User.getOne(
-        { _id: userId, "researches.id": researchId },
-        { fields: { "researches.$": 1 } }
-      )
-    ).researches[0].parameters;
-    investigator.score = 0;
+    investigator = await User.getOne(
+      { _id: userId, "researches.id": researchId },
+      { fields: { "researches.$": 1 } }
+    );
+    const parameters = investigator.researches[0].parameters;
+    console.log(investigator);
+    console.log(parameters);
+    investigator.researches[0].score = 0;
     for (const prop in parameters) {
       if (typeof parameters[prop] === "number") {
-        investigator.score += (parameters[prop] / 100) * weights[prop];
+        investigator.researches[0].score +=
+          (parameters[prop] / 100) * weights[prop];
       } else {
-        if (parameters[prop]) investigator.score += weights[prop];
+        if (parameters[prop]) investigator.researches[0].score += weights[prop];
       }
     }
-    investigator.score = Math.round(investigator.score * 100) / 100;
-    investigator.rankStatus = "Accepted";
+    investigator.researches[0].score =
+      Math.round(investigator.researches[0].score * 100) / 100;
+    investigator.researches[0].rankStatus = "Accepted";
     if (
       !parameters.responsibility ||
       !parameters.manuscriptReview ||
       !parameters.revising ||
       !parameters.studyPlan
     ) {
-      investigator.rankStatus = "Rejected";
+      investigator.researches[0].rankStatus = "Rejected";
     }
-    return Research.updateOne(
+    return User.updateOne(
       {
-        $and: [{ _id: researchId }, { "investigators.id": userId }],
+        $and: [{ _id: userId }, { "researches.id": researchId }],
       },
-      { $set: { "investigators.$": investigator } }
+      { $set: { "researches.$": investigator.researches[0] } }
     );
   }
 
