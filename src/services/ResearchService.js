@@ -141,7 +141,7 @@ class ResearchService extends baseService {
   async rank(id) {
     const investigators = await this.getInvestigators(id);
     investigators.sort((a, b) => {
-      return b.score - a.score;
+      return b.researches.score - a.researches.score;
     });
     return investigators;
   }
