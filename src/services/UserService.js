@@ -130,6 +130,7 @@ class UserService extends baseService {
     if (!user) {
       throw new this.NotFoundError(`there is no user with id ${userId}`);
     }
+    data.updated_at = Date.now();
     for (let i = 0; i < user.researches.length; i++) {
       if (data.id === user.researches[i].id.toString()) {
         user.researches[i] = data;

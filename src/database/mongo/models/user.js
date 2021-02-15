@@ -24,6 +24,7 @@ const parameterSchema = new Schema({
 const researchSchema = new Schema({
   id: { type: Types.ObjectId, ref: "Research", trim: true },
   score: { type: Number, trim: true, default: 0 },
+  updated_at: { type: Date },
   roles: [
     {
       type: String,
