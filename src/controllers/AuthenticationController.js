@@ -25,7 +25,6 @@ class AuthenticationController extends BaseController {
 
   async login(ctx) {
     await this.authorize(ctx, ["createAny"]);
-    console.log(ctx.request.body);
     await this.validate(
       {
         type: "object",

@@ -18,6 +18,12 @@ const aclRoles = {
       "read:any": ["*"],
       "update:any": ["*"],
     },
+    [aclResources.USER]: {
+      "read:any": ["*"],
+      "read:own": ["*"],
+      "update:own": ["*"],
+      "update:any": ["*"],
+    },
   },
   user: {
     [aclResources.RESEARCH]: {

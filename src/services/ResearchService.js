@@ -98,7 +98,6 @@ class ResearchService extends baseService {
         `there is no research with id ${researchId}`
       );
     }
-    console.log(research);
 
     const investigator = research.investigators.find(
       (element) => element.toString() === userId.toString()

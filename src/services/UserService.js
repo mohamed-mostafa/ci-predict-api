@@ -28,12 +28,22 @@ class UserService extends baseService {
     return User.getAll(query, nParams, pagination);
   }
 
-  async getOne(id) {
-    const research = await User.getById(id);
-    if (!research) {
+  async getOne(id, query) {
+    const user = await User.getById(id);
+    if (!user) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
     }
-    return research;
+    if (query.research) {
+      const research = user.researches.find(
+        (element) => element.id.toString() === query.research
+      );
+      if (!research)
+        throw new this.NotFoundError(
+          "You are not participated in this research"
+        );
+      return research;
+    }
+    return user;
   }
 
   async getInvestigators(id) {
@@ -59,7 +69,7 @@ class UserService extends baseService {
     return User.updateById(id, data, { new: true, lean: true });
   }
 
-  async participate({ data, id, files }) {
+  async participate({ data, id }) {
     const user = await User.getById(id);
     if (!user) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
@@ -99,6 +109,20 @@ class UserService extends baseService {
       );
     }
     return research;
+  }
+
+  async updateInvestigator({ userId, data }) {
+    const user = await User.getById(userId);
+    if (!user) {
+      throw new this.NotFoundError(`there is no user with id ${userId}`);
+    }
+
+    for (let i = 0; i < user.researches.length; i++) {
+      if (data.researches.id === user.researches[i].id.toString()) {
+        user.researches[i] = data.researches;
+      }
+    }
+    return User.updateById(userId, user);
   }
 
   async updateParameters(userId, data) {

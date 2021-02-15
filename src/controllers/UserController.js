@@ -18,6 +18,12 @@ class UserController extends BaseController {
       service: UserService,
       routes: [
         { method: "PUT", path: "/:id/", handler: "update", multipart },
+        { method: "GET", path: "/:id/", handler: "getOne" },
+        {
+          method: "PUT",
+          path: "/:id/investigator",
+          handler: "updateInvestigator",
+        },
         {
           method: "PUT",
           path: "/:id/participate",
@@ -40,7 +46,7 @@ class UserController extends BaseController {
 
   async getOne(ctx) {
     await this.authorize(ctx, ["readAny"]);
-    ctx.body = await this.service.getOne(ctx.params.id);
+    ctx.body = await this.service.getOne(ctx.params.id, ctx.request.query);
   }
 
   async parameters(ctx) {
@@ -59,6 +65,15 @@ class UserController extends BaseController {
       id: ctx.params.id,
       data: data,
       files: ctx.request.files,
+    });
+  }
+
+  async updateInvestigator(ctx) {
+    await this.authorize(ctx, ["updateOwn"]);
+    const data = ctx.request.body;
+    ctx.body = await this.service.updateInvestigator({
+      userId: ctx.params.id,
+      data: data,
     });
   }
 
