@@ -28,12 +28,13 @@ const aclRoles = {
   user: {
     [aclResources.RESEARCH]: {
       "read:any": ["*"],
-      "update:any": ["investigators", "commonParameters"],
+      "update:any": ["*"],
     },
     [aclResources.USER]: {
       "read:any": ["*"],
       "read:own": ["*"],
       "update:own": ["*"],
+      "update:any": ["*"],
     },
   },
   public: {

@@ -69,7 +69,7 @@ class UserController extends BaseController {
   }
 
   async updateInvestigator(ctx) {
-    await this.authorize(ctx, ["updateOwn"]);
+    await this.authorize(ctx, ["updateAny"]);
     const data = ctx.request.body;
     ctx.body = await this.service.updateInvestigator({
       userId: ctx.params.id,
