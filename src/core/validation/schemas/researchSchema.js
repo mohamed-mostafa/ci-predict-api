@@ -8,5 +8,4 @@ module.exports = {
     commonParameters: { type: "object" },
   },
   required: ["name", "abstract"],
-  additionalProperties: false,
 };
