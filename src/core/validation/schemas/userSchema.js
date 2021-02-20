@@ -13,6 +13,7 @@ module.exports = {
     address: { type: "string" },
     address2: { type: "string" },
     researches: { type: "array" },
+    appStatus: { type: "string" },
   },
   required: [
     "firstName",

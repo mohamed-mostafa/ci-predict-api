@@ -60,6 +60,12 @@ const userSchema = new Schema({
   address: { type: String, trim: true },
   address2: { type: String, trim: true },
   roles: [{ type: String, enum: rolesEnum }],
+  appStatus: {
+    type: String,
+    enum: ["Approved", "Pending", "Declined"],
+    default: "Pending",
+    trim: true,
+  },
   researches: [researchSchema],
 });
 

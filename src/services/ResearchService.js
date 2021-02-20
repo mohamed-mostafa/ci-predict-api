@@ -33,7 +33,7 @@ class ResearchService extends baseService {
     if (filters.search) {
       query.$or = [
         { name: { $regex: filters.search, $options: "i" } },
-        { _id: { $regex: filters.search, $options: "i" } },
+        { abstract: { $regex: filters.search, $options: "i" } },
       ];
     }
 

@@ -19,6 +19,7 @@ class UserController extends BaseController {
       routes: [
         { method: "PUT", path: "/:id/", handler: "update", multipart },
         { method: "GET", path: "/:id/", handler: "getOne" },
+        { method: "GET", path: "/", handler: "get" },
         {
           method: "PUT",
           path: "/:id/investigator",
@@ -58,7 +59,7 @@ class UserController extends BaseController {
   }
 
   async update(ctx) {
-    await this.authorize(ctx, ["updateOwn"]);
+    await this.authorize(ctx, ["updateAny"]);
     const data = ctx.request.body;
     await this.validate(userSchema, data, false);
     ctx.body = await this.service.update({

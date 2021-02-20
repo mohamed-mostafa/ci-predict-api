@@ -6,14 +6,25 @@ class UserService extends baseService {
     const nParams = params;
     const query = {};
 
-    if (filters.app_status) {
+    if (filters.appStatus) {
       query.app_status = { $in: filters.app_status.split(",") };
     }
 
     if (filters.search) {
       query.$or = [
-        { name: { $regex: filters.search, $options: "i" } },
-        { _id: { $regex: filters.search, $options: "i" } },
+        { firstName: { $regex: filters.search, $options: "i" } },
+        { lastName: { $regex: filters.search, $options: "i" } },
+        {
+          $expr: {
+            $regexMatch: {
+              input: { $concat: ["$firstName", " ", "$lastName"] },
+              regex: filters.search,
+              options: "i",
+            },
+          },
+        },
+        { phoneNumber: { $regex: filters.search, $options: "i" } },
+        { email: { $regex: filters.search, $options: "i" } },
       ];
     }
 
