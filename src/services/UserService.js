@@ -40,7 +40,10 @@ class UserService extends baseService {
   }
 
   async getOne(id, query) {
-    const user = await User.getById(id);
+    const user = await User.getById(id, {
+      lean: true,
+      populate: [["researches.id", "name"]],
+    });
     if (!user) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
     }
