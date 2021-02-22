@@ -49,7 +49,7 @@ class UserService extends baseService {
     }
     if (query.research) {
       const research = user.researches.find(
-        (element) => element.id.toString() === query.research
+        (element) => element.id._id.toString() === query.research
       );
       if (!research)
         throw new this.NotFoundError(
