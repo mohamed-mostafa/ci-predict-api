@@ -27,6 +27,11 @@ class ResearchController extends BaseController {
           handler: "getInvestigators",
         },
         {
+          method: "PUT",
+          path: "/:id/investigators",
+          handler: "deleteInvestigator",
+        },
+        {
           method: "GET",
           path: "/:id/parameters",
           handler: "getParameters",
@@ -95,6 +100,14 @@ class ResearchController extends BaseController {
       id: ctx.params.id,
       data: data,
       files: ctx.request.files,
+    });
+  }
+
+  async deleteInvestigator(ctx) {
+    await this.authorize(ctx, ["updateAny"]);
+    ctx.body = await this.service.deleteInvestigator({
+      researchId: ctx.params.id,
+      investigatorId: ctx.request.body.investigatorId,
     });
   }
 }

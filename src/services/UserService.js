@@ -1,5 +1,5 @@
 const baseService = require("../core/baseService");
-const { User } = require("../database/mongo/models");
+const { User, Research } = require("../database/mongo/models");
 
 class UserService extends baseService {
   async getAll(filters, params, pagination = false) {
@@ -151,6 +151,19 @@ class UserService extends baseService {
       }
     }
     return User.updateById(userId, user, { lean: true, new: true });
+  }
+
+  async deleteResearch({ researchId, userId }) {
+    const user = await User.getById(userId);
+    if (!user) {
+      throw new this.NotFoundError(`there is no user with id ${userId}`);
+    }
+    await Research.updateById(researchId, {
+      $pull: { investigators: { $in: [userId] } },
+    });
+    return User.updateById(userId, {
+      $pull: { researches: { id: researchId } },
+    });
   }
 }
 

@@ -27,6 +27,11 @@ class UserController extends BaseController {
         },
         {
           method: "PUT",
+          path: "/:id/research",
+          handler: "deleteResearch",
+        },
+        {
+          method: "PUT",
           path: "/:id/participate",
           handler: "participate",
         },
@@ -93,6 +98,14 @@ class UserController extends BaseController {
       ctx.params.id,
       ctx.request.body
     );
+  }
+
+  async deleteResearch(ctx) {
+    await this.authorize(ctx, ["updateAny", "updateOwn"]);
+    ctx.body = await this.service.deleteResearch({
+      userId: ctx.params.id,
+      researchId: ctx.request.body.researchId,
+    });
   }
 }
 

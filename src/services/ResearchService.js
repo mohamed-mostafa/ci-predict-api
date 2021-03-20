@@ -170,6 +170,23 @@ class ResearchService extends baseService {
     }
     return research;
   }
+
+  async deleteInvestigator({ researchId, investigatorId }) {
+    const research = Research.getById(researchId);
+    if (!research) {
+      throw new this.NotFoundError(
+        `there is no research with id ${researchId}`
+      );
+    }
+
+    await User.updateById(investigatorId, {
+      $pull: { researches: { id: researchId } },
+    });
+
+    return Research.updateById(researchId, {
+      $pull: { investigators: { $in: [investigatorId] } },
+    });
+  }
 }
 
 module.exports = new ResearchService();
