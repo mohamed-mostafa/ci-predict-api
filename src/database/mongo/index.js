@@ -39,6 +39,7 @@ class Database {
   async _registerModels() {
     require("./models/user");
     require("./models/research");
+    require("./models/history");
   }
 
   async _connect(uri, options) {

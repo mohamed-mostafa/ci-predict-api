@@ -1,5 +1,5 @@
 const baseService = require("../core/baseService");
-const { Research, User } = require("../database/mongo/models");
+const { Research, User, History } = require("../database/mongo/models");
 
 const weights = {
   studyDesign: 0.069,
@@ -75,7 +75,7 @@ class ResearchService extends baseService {
     return investigators;
   }
 
-  async update({ data, id, files }) {
+  async update({ data, id, files, userName }) {
     const research = await Research.getById(id);
     if (!research) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
@@ -86,6 +86,9 @@ class ResearchService extends baseService {
       }
       if (files.image) data.image = (await this.storage.save(files.image))[0];
     }
+    await History.create({
+      record: `${userName} updated Research ${research.name}`,
+    });
     return Research.updateById(id, data, { new: true, lean: true });
   }
 
@@ -146,7 +149,7 @@ class ResearchService extends baseService {
     return investigators;
   }
 
-  async create({ data, files }) {
+  async create({ data, files, userName }) {
     const existResearch = await Research.getOne({ name: data.name });
     if (existResearch) {
       throw new this.ValidationError("Research is already registered");
@@ -156,6 +159,9 @@ class ResearchService extends baseService {
     }
     data.commonParameters = {};
     const research = await Research.create(data);
+    await History.create({
+      record: `${userName} added Research ${research.name}`,
+    });
     return research;
   }
 

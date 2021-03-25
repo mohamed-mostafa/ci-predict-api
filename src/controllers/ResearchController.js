@@ -56,6 +56,7 @@ class ResearchController extends BaseController {
     ctx.body = await this.service.create({
       data: ctx.request.body,
       files: ctx.request.files,
+      userName: ctx._locals.user.firstName + ctx._locals.user.lastName,
     });
   }
 
@@ -100,6 +101,7 @@ class ResearchController extends BaseController {
       id: ctx.params.id,
       data: data,
       files: ctx.request.files,
+      userName: ctx._locals.user.firstName + ctx._locals.user.lastName,
     });
   }
 
