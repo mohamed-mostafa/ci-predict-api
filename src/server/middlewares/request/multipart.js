@@ -63,7 +63,6 @@ class Multipart {
   _buildFields(fields) {
     return Object.entries(fields).map(([key, value]) => {
       const lowerCaseExt = value && value.ext ? value.ext.map((e) => e) : [];
-      console.log(lowerCaseExt);
       _.set(fields, `${key}.ext`, lowerCaseExt);
 
       return {
