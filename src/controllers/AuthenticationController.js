@@ -6,7 +6,7 @@ const AuthenticationService = require("../services/AuthenticationService");
 const multipart = {
   fileSize: 1 * 1024 * 1024,
   fields: {
-    image: { maxCount: 1, ext: ["jpg", "jpeg", "png"] },
+    image: { maxCount: 1, ext: ["jpg", "jpeg", "png", "PNG"] },
   },
 };
 
