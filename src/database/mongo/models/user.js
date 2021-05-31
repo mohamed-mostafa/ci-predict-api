@@ -38,6 +38,12 @@ const researchSchema = new Schema({
     default: "Pending",
     trim: true,
   },
+  canShowResult: {
+    type: String,
+    enum: ["Approved", "Pending", "Declined"],
+    default: "Pending",
+    trim: true,
+  },
   rankStatus: {
     type: String,
     enum: ["Accepted", "Rejected"],
