@@ -22,7 +22,7 @@ const weights = {
 };
 
 class ResearchService extends baseService {
-  async getAll(filters, params, pagination = false) {
+  async getAll(filters, params, role, pagination = false) {
     const nParams = params;
     const query = {};
 
@@ -37,6 +37,14 @@ class ResearchService extends baseService {
       ];
     }
 
+    if (role !== "admin") {
+      if (!query.$or) {
+        query.$or = [];
+      }
+      query.$or.push({ status: "NEW" });
+      query.$or.push({ status: "IN PROGRESS" });
+    }
+
     if (filters.role) {
       query.roles = filters.role;
     }
@@ -49,9 +57,7 @@ class ResearchService extends baseService {
   }
 
   async getOne(id) {
-    const research = await Research.getById(id, {
-      fields: { commonParameters: 0 },
-    });
+    const research = await Research.getById(id);
     if (!research) {
       throw new this.NotFoundError(`there is no research with id ${id}`);
     }
@@ -146,7 +152,9 @@ class ResearchService extends baseService {
     investigators.sort((a, b) => {
       return b.researches.score - a.researches.score;
     });
-    return investigators;
+    return investigators.filter((element) => {
+      return element.researches.parameters.status === "Validate";
+    });
   }
 
   async create({ data, files, userName }) {

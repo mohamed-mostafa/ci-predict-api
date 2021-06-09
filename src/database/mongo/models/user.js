@@ -20,6 +20,12 @@ const parameterSchema = new Schema({
   dataAnalysis: { type: Boolean, default: false },
   inquiry: { type: Boolean, default: false },
   presentation: { type: Boolean, default: false },
+  status: {
+    type: String,
+    enum: ["New", "In Progress", "Validate", "Pending Validation"],
+    default: "New",
+    trim: true,
+  },
 });
 const researchSchema = new Schema({
   id: { type: Types.ObjectId, ref: "Research", trim: true },

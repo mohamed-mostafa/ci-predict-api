@@ -140,11 +140,13 @@ class UserService extends baseService {
   }
 
   async updateParameters(userId, data) {
+    console.log(data);
     const user = await User.getById(userId);
     if (!user) {
       throw new this.NotFoundError(`there is no user with id ${userId}`);
     }
     data.updated_at = Date.now();
+    // data.parameters.status = "In Progress";
     for (let i = 0; i < user.researches.length; i++) {
       if (data.id === user.researches[i].id.toString()) {
         user.researches[i] = data;

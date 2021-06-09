@@ -62,7 +62,11 @@ class ResearchController extends BaseController {
 
   async get(ctx) {
     await this.authorize(ctx, ["readAny"]);
-    ctx.body = await this.service.getAll(ctx.request.query, ctx.request.query);
+    ctx.body = await this.service.getAll(
+      ctx.request.query,
+      ctx.request.query,
+      ctx._locals.user.roles[0]
+    );
   }
 
   async getOne(ctx) {
@@ -87,9 +91,11 @@ class ResearchController extends BaseController {
 
   async calcRank(ctx) {
     await this.authorize(ctx, ["updateAny"]);
+
+    // console.log(ctx.body);
     ctx.body = await this.service.calcRank({
       researchId: ctx.params.id,
-      userId: ctx._locals.user._id,
+      userId: ctx.request.body.userId,
     });
   }
 
