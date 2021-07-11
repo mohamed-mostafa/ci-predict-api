@@ -20,7 +20,7 @@ module.exports = {
   storage: {
     accessKey: "4DBFU253xwQQMV2u",
     secretKey: "fr7MRU3RbxBtX5zP",
-    baseUrl: "http://163.172.122.112:5535",
+    baseUrl: "http://162.240.10.41:7000",
     bucket: "authorship",
     folder: "dev",
   },
@@ -29,7 +29,7 @@ module.exports = {
       "thisIsVerySecretKeyNoOneCanImagineThatThisIsTheKeyAndEvenIfHeImaginedThatThisIsTheKeyHeWillNotExpectThatIWroteThatHeImaginedThatIsTheKey",
   },
   mongo: {
-    url: `mongodb://authorship:bs9O6P82TXdXQEZ2RYfEruObogrNn1@162.240.10.41:27018/authorship`,
+    url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@162.240.10.41:27018/authorship`,
   },
   // mongo: {
   //   url: `mongodb://authorship:bs9O6P82TXdXQEZ2RYfEruObogrNn1@163.172.122.112:5555/authorship`,
