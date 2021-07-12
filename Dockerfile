@@ -1,8 +1,8 @@
 FROM node:9 AS builder
-ADD package*.json /root/apps/docker/
+ADD package*.json /tmp/
 WORKDIR /tmp
 RUN npm install --only=production
-RUN mkdir -p /usr/src/app && cp -a /root/apps/docker/node_modules /usr/src/app
+RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app
 FROM node:9-slim
 COPY . /usr/src/app
 COPY --from=builder /usr/src/app /usr/src/app
