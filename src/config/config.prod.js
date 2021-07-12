@@ -20,7 +20,7 @@ module.exports = {
   storage: {
     accessKey: "4DBFU253xwQQMV2u",
     secretKey: "fr7MRU3RbxBtX5zP",
-    baseUrl: "localhost:7000",
+    baseUrl: "s3server:7000",
     bucket: "authorship",
     folder: "dev",
   },
