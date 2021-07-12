@@ -29,6 +29,6 @@ module.exports = {
       "thisIsVerySecretKeyNoOneCanImagineThatThisIsTheKeyAndEvenIfHeImaginedThatThisIsTheKeyHeWillNotExpectThatIWroteThatHeImaginedThatIsTheKey",
   },
   mongo: {
-    url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@localhost:27018/authorship`,
+    url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@0.0.0.0:27018/authorship`,
   },
 };
