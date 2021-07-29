@@ -20,7 +20,7 @@ module.exports = {
   storage: {
     accessKey: "4DBFU253xwQQMV2u",
     secretKey: "fr7MRU3RbxBtX5zP",
-    baseUrl: "http://162.240.10.41:7000",
+    baseUrl: "https://storage.realauthor.com",
     bucket: "authorship",
     folder: "dev",
   },

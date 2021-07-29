@@ -65,6 +65,7 @@ const userSchema = new Schema({
   title: { type: String, trim: true },
   email: { type: String, lowercase: true, trim: true },
   mobile: { type: String, trim: true },
+  is_email_verified: { type: Boolean, default: false },
   password: { type: String },
   city: { type: String, trim: true },
   state: { type: String, trim: true },

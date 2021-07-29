@@ -44,6 +44,8 @@ class AuthenticationService extends baseService {
     });
     return { user: user.toObject(), token };
   }
+
+  async verifyEmail() {}
 }
 
 module.exports = new AuthenticationService();
