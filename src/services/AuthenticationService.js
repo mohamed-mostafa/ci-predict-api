@@ -16,10 +16,13 @@ class AuthenticationService extends baseService {
       throw new this.NotFoundError("wrongUsernameOrPassword");
     }
     delete existUser.password;
-    const token = await this.crypto.createJwtToken({
-      sub: existUser._id.toString(),
-      roles: existUser.roles,
-    });
+    const token = await this.crypto.createJwtToken(
+      {
+        sub: existUser._id.toString(),
+        roles: existUser.roles,
+      },
+      "key"
+    );
     return { user: existUser, token };
   }
 
