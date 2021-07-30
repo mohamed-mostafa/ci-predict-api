@@ -1,6 +1,5 @@
 const path = require("path");
 const fs = require("fs");
-const _ = require("lodash");
 const Router = require("koa-router");
 const Multipart = require("./request/multipart");
 const { ValidationError } = require("../../common/errors");

@@ -2,17 +2,22 @@ const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
   host: "realauthor.com",
-  port: 25,
-  secure: false,
+  port: 465,
+  secure: true,
   auth: {
     user: "noreplay@realauthor.com",
     pass: "Realauthor@123",
   },
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
+
+// console.log(transporter);
 
 const mailOptions = {
   from: "noreplay@realauthor.com",
-  to: "hooodamonem111@gmail.com",
+  to: "ima_ibraheem@yahoo.com",
   subject: "Email Verification",
   html:
     // eslint-disable-next-line no-template-curly-in-string
@@ -22,6 +27,7 @@ const mailOptions = {
 transporter.sendMail(mailOptions, (err, info) => {
   if (err) {
     console.log(err);
+  } else {
+    console.log("message sent ", info);
   }
-  console.log("message sent ", info);
 });

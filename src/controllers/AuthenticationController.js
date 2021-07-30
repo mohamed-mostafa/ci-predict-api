@@ -19,6 +19,7 @@ class AuthenticationController extends BaseController {
       routes: [
         { method: "POST", path: "/login", handler: "login" },
         { method: "POST", path: "/register", handler: "register", multipart },
+        { method: "POST", path: "/verify", handler: "verifyEmail" },
       ],
     });
   }
@@ -47,6 +48,10 @@ class AuthenticationController extends BaseController {
 
     const user = await this.service.register(data, ctx.request.files);
     ctx.body = user;
+  }
+
+  async verifyEmail(ctx) {
+    ctx.body = await this.service.verifyEmail(ctx.request.body);
   }
 }
 

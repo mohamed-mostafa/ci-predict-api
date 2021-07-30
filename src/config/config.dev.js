@@ -20,13 +20,15 @@ module.exports = {
   storage: {
     accessKey: "4DBFU253xwQQMV2u",
     secretKey: "fr7MRU3RbxBtX5zP",
-    baseUrl: "http://162.240.10.41:7000",
+    baseUrl: "storage.realauthor.com",
     bucket: "authorship",
     folder: "dev",
   },
   authentication: {
     key:
       "thisIsVerySecretKeyNoOneCanImagineThatThisIsTheKeyAndEvenIfHeImaginedThatThisIsTheKeyHeWillNotExpectThatIWroteThatHeImaginedThatIsTheKey",
+    confirmationKey:
+      "thisKeyIsUsedForConformationOfEmailsInRealAuthorAppIknowYouCanNotKnowThisKeyBecauseImadeIt",
   },
   mongo: {
     url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@162.240.10.41:27018/authorship`,

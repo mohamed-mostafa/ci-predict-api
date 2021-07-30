@@ -113,11 +113,9 @@ class Server {
           case "EACCES":
             console.error(`port ${err.port} requires elevated privileges`);
             process.exit(1);
-            break;
           case "EADDRINUSE":
             console.error(`port ${err.port} is already in use`);
             process.exit(1);
-            break;
           default:
             if (onError) {
               onError(err);
