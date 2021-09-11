@@ -5,7 +5,7 @@ module.exports = {
     name: API_NAME,
     version: "1.0",
     host: "localhost",
-    port: process.env.PORT || 8080,
+    port: process.env.PORT || 8081,
     contextStoreName: "api",
   },
   common: {
@@ -30,10 +30,10 @@ module.exports = {
     confirmationKey:
       "thisKeyIsUsedForConformationOfEmailsInRealAuthorAppIknowYouCanNotKnowThisKeyBecauseImadeIt",
   },
-  mongo: {
-    url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@162.240.10.41:27018/authorship`,
-  },
   // mongo: {
-  //   url: `mongodb://authorship:bs9O6P82TXdXQEZ2RYfEruObogrNn1@163.172.122.112:5555/authorship`,
+  //   url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@162.240.10.41:27018/authorship`,
   // },
+  mongo: {
+    url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@163.172.122.112:5555/authorship`,
+  },
 };

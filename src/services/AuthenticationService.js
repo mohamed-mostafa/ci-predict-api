@@ -58,7 +58,7 @@ class AuthenticationService extends baseService {
       "confirmationKey",
       72000000
     );
-    new ConfirmMailService().sendMail(user.email, confirmToken);
+    new ConfirmMailService().sendMail({ to: user.email, token: confirmToken });
     return { user: user.toObject(), token };
   }
 
