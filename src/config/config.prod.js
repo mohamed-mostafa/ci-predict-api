@@ -31,6 +31,7 @@ module.exports = {
       "thisKeyIsUsedForConformationOfEmailsInRealAuthorAppIknowYouCanNotKnowThisKeyBecauseImadeIt",
   },
   mongo: {
-    url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@mongodb:27017/authorship`,
+    // url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@mongodb:27017/authorship`,
+    url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@163.172.122.112:5555/authorship`,
   },
 };
