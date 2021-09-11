@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 
 const mailOptions = {
   from: "noreplay@realauthor.com",
-  to: "ima_ibraheem@yahoo.com",
+  to: "hooodamonem111@gmail.com",
   subject: "Email Verification",
   html:
     // eslint-disable-next-line no-template-curly-in-string
