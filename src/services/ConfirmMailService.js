@@ -18,7 +18,7 @@ class ConfirmMailService {
 
   sendMail({ to, token }) {
     // const url = `https://realauthor.com/confirmation/${token}`;
-    const url = `https://author.piattaforma.store/verify/${token}`;
+    const url = `https://author.piattaforma.store/auth/verify/${token}`;
     const mailOptions = {
       from: "noreplay@realauthor.com",
       to: to,
