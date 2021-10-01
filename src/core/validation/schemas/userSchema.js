@@ -15,17 +15,6 @@ module.exports = {
     researches: { type: "array" },
     appStatus: { type: "string" },
   },
-  required: [
-    "firstName",
-    "lastName",
-    "password",
-    "email",
-    "mobile",
-    "title",
-    "city",
-    "state",
-    "zip",
-    "address",
-  ],
+  required: ["firstName", "lastName", "password", "email", "mobile", "title"],
   additionalProperties: false,
 };
