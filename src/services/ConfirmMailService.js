@@ -35,6 +35,24 @@ class ConfirmMailService {
       }
     });
   }
+
+  sendResetPassword({ to, token }) {
+    const mailOptions = {
+      from: "noreplay@realauthor.com",
+      to: to,
+      subject: "Email Verification",
+      html:
+        // eslint-disable-next-line no-template-curly-in-string
+        `Hello,<br /><br />You can use the number below to reset your password.<br /><br /><h2>${token}</h2><br /><br />Regards,<br />Realauthor`,
+    };
+    this.transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("message sent ", info);
+      }
+    });
+  }
 }
 
-module.exports = ConfirmMailService;
+module.exports = new ConfirmMailService();

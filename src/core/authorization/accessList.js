@@ -47,7 +47,10 @@ const aclRoles = {
     },
   },
   public: {
-    [aclResources.AUTHENTICATION]: { "create:any": ["*"] },
+    [aclResources.AUTHENTICATION]: {
+      "create:any": ["*"],
+      "update:any": ["*"],
+    },
   },
 };
 

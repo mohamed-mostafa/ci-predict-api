@@ -68,6 +68,11 @@ class Crypto {
       });
     });
   }
+
+  static generateRandomNumber() {
+    const number = Math.floor(Math.random() * 9000) + 1000;
+    return number;
+  }
 }
 
 module.exports = Crypto;

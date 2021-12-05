@@ -79,6 +79,11 @@ const userSchema = new Schema({
     default: "Pending",
     trim: true,
   },
+  verify_token: {
+    token: { type: String, trim: true },
+    token_expiration: { type: Date },
+    token_time: { type: Date },
+  },
   researches: [researchSchema],
 });
 

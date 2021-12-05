@@ -1,6 +1,6 @@
 const { aclResources } = require("../core/authorization/accessList");
 const BaseController = require("../core/baseController");
-const { userSchema } = require("../core/validation/schemas");
+const { authSchema } = require("../core/validation/schemas");
 const AuthenticationService = require("../services/AuthenticationService");
 
 const multipart = {
@@ -20,38 +20,37 @@ class AuthenticationController extends BaseController {
         { method: "POST", path: "/login", handler: "login" },
         { method: "POST", path: "/register", handler: "register", multipart },
         { method: "POST", path: "/verify", handler: "verifyEmail" },
+        { method: "POST", path: "/reset-password", handler: "resetPassword" },
       ],
     });
   }
 
   async login(ctx) {
     await this.authorize(ctx, ["createAny"]);
-    await this.validate(
-      {
-        type: "object",
-        properties: {
-          password: { type: "string", minLength: 6, maxLength: 64 },
-          username: { type: "string", format: "email" },
-        },
-        required: ["username", "password"],
-      },
-      ctx.request.body
-    );
-    const user = await this.service.login(ctx.request.body);
-    ctx.body = user;
+    const data = ctx.request.body;
+    await this.validate(authSchema.login, data);
+    ctx.body = await this.service.login(ctx.request.body);
   }
 
   async register(ctx) {
     await this.authorize(ctx, ["createAny"]);
     const data = ctx.request.body;
-    await this.validate(userSchema, data);
-
-    const user = await this.service.register(data, ctx.request.files);
-    ctx.body = user;
+    await this.validate(authSchema.register, data);
+    ctx.body = await this.service.register(data, ctx.request.files);
   }
 
   async verifyEmail(ctx) {
     ctx.body = await this.service.verifyEmail(ctx.request.body);
+  }
+
+  async resetPassword(ctx) {
+    await this.authorize(ctx, ["updateAny"]);
+    ctx.body = await this.service.resetPassword(ctx.request.body);
+  }
+
+  async verifyResetPassword(ctx) {
+    await this.authorize(ctx, ["updateAny"]);
+    ctx.body = await this.service.resetPassword(ctx.request.body);
   }
 }
 
