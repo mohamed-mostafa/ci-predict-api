@@ -21,6 +21,11 @@ class AuthenticationController extends BaseController {
         { method: "POST", path: "/register", handler: "register", multipart },
         { method: "POST", path: "/verify", handler: "verifyEmail" },
         { method: "POST", path: "/reset-password", handler: "resetPassword" },
+        {
+          method: "POST",
+          path: "/verify-reset-password",
+          handler: "verifyResetPassword",
+        },
       ],
     });
   }
@@ -50,7 +55,7 @@ class AuthenticationController extends BaseController {
 
   async verifyResetPassword(ctx) {
     await this.authorize(ctx, ["updateAny"]);
-    ctx.body = await this.service.resetPassword(ctx.request.body);
+    ctx.body = await this.service.verifyResetPassword(ctx.request.body);
   }
 }
 

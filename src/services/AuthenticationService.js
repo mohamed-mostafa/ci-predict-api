@@ -24,11 +24,11 @@ class AuthenticationService extends baseService {
   async register(data, files) {
     let existUser = await User.exists({ email: data.email });
     if (existUser) {
-      throw new this.ValidationError("userWithThisEmailExists");
+      throw new this.ValidationError("This email is used");
     }
     existUser = await User.exists({ mobile: data.mobile });
     if (existUser) {
-      throw new this.ValidationError("userWithThisMobileExists");
+      throw new this.ValidationError("This mobile is used");
     }
     if (files && files.image) {
       const [image] = await this.storage.save(files.image);
@@ -65,14 +65,20 @@ class AuthenticationService extends baseService {
   }
 
   async resetPassword({ email }) {
-    const user = User.getOne({ email: email });
-    if (!user || !user.is_email_verified) {
+    const user = await User.getOne({ email: email });
+    if (!user) {
       throw new this.NotFoundError("User not found");
     }
-    const elapsedTime = Date.now() - (user.verify_mobile.token_time || 0);
+
+    if (!user.is_email_verified) {
+      throw new this.ValidationError("This email is not verified");
+    }
+
+    const elapsedTime = Date.now() - (user.verify_token.token_time || 0);
     if (elapsedTime < delay) {
       return;
     }
+    console.log(email);
     const token = this.crypto.generateRandomNumber();
     const tokenTime = Date.now();
     const tokenExpiration = Date.now() + expiration;
@@ -82,7 +88,11 @@ class AuthenticationService extends baseService {
       token_expiration: tokenExpiration,
     };
     await user.save();
-    confirmMailService.sendResetPassword({ to: user.email, token });
+    confirmMailService.sendResetPassword({
+      to: user.email,
+      token,
+      id: user._id,
+    });
     return { _id: user._id };
   }
 

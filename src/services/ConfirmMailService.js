@@ -17,8 +17,8 @@ class ConfirmMailService {
   }
 
   sendMail({ to, token }) {
-    // const url = `https://realauthor.com/confirmation/${token}`;
-    const url = `https://author.piattaforma.store/auth/verify/${token}`;
+    const url = `https://realauthor.com/auth/verify/${token}`;
+    // const url = `https://author.piattaforma.store/auth/verify/${token}`;
     const mailOptions = {
       from: "noreplay@realauthor.com",
       to: to,
@@ -36,14 +36,15 @@ class ConfirmMailService {
     });
   }
 
-  sendResetPassword({ to, token }) {
+  sendResetPassword({ to, token, id }) {
+    const url = `https://realauthor.com/authentication/reset-password-v2?token=${token}&id=${id}`;
     const mailOptions = {
       from: "noreplay@realauthor.com",
       to: to,
-      subject: "Email Verification",
+      subject: "Reset password",
       html:
         // eslint-disable-next-line no-template-curly-in-string
-        `Hello,<br /><br />You can use the number below to reset your password.<br /><br /><h2>${token}</h2><br /><br />Regards,<br />Realauthor`,
+        `Hello,<br /><br />click the link below to reset your password.<br /><br /><h2>${url}</h2><br /><br />Regards,<br />Realauthor`,
     };
     this.transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
