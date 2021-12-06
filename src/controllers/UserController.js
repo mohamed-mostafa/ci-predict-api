@@ -41,6 +41,11 @@ class UserController extends BaseController {
           path: "/:id/parameters",
           handler: "updateParameters",
         },
+        {
+          method: "PATCH",
+          path: "/:id/password",
+          handler: "updatePassword",
+        },
       ],
     });
   }
@@ -97,6 +102,14 @@ class UserController extends BaseController {
     ctx.body = await this.service.updateParameters(
       ctx.params.id,
       ctx.request.body
+    );
+  }
+
+  async updatePassword(ctx) {
+    await this.authorize(ctx, ["updateOwn"]);
+    ctx.body = await this.service.updatePassword(
+      ctx.params.id,
+      ctx.request.body.newPassword
     );
   }
 

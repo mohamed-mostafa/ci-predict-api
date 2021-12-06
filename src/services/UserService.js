@@ -1,5 +1,6 @@
 const baseService = require("../core/baseService");
 const { User, Research } = require("../database/mongo/models");
+const _ = require("lodash");
 
 class UserService extends baseService {
   async getAll(filters, params, pagination = false) {
@@ -140,7 +141,6 @@ class UserService extends baseService {
   }
 
   async updateParameters(userId, data) {
-    console.log(data);
     const user = await User.getById(userId);
     if (!user) {
       throw new this.NotFoundError(`there is no user with id ${userId}`);
@@ -166,6 +166,34 @@ class UserService extends baseService {
     return User.updateById(userId, {
       $pull: { researches: { id: researchId } },
     });
+  }
+
+  async updatePassword(id, password) {
+    const user = await User.getById(id);
+    if (!user) {
+      throw new this.NotFoundError("There is no user with this id");
+    }
+
+    user.password = this.crypto.createHash(password);
+    await user.save();
+    return this._getUserResponse(user.toObject());
+  }
+
+  async _getUserResponse(user) {
+    return this.crypto
+      .createJwtToken(
+        {
+          sub: user._id.toString(),
+          roles: user.roles,
+        },
+        "key"
+      )
+      .then((token) => {
+        return {
+          token,
+          user: _.omit(user, ["password", "__v", "updated_at", "created_at"]),
+        };
+      });
   }
 }
 

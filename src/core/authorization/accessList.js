@@ -45,6 +45,9 @@ const aclRoles = {
       "read:any": ["*"],
       "create:any": ["*"],
     },
+    [aclResources.AUTHENTICATION]: {
+      "update:any": ["*"],
+    },
   },
   public: {
     [aclResources.AUTHENTICATION]: {

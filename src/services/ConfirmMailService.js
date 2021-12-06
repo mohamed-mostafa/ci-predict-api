@@ -3,7 +3,7 @@ const nodemailer = require("nodemailer");
 class ConfirmMailService {
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: "realauthor.com",
+      host: "162.240.10.41",
       port: 465,
       secure: true,
       auth: {
@@ -17,7 +17,8 @@ class ConfirmMailService {
   }
 
   sendMail({ to, token }) {
-    const url = `https://realauthor.com/auth/verify/${token}`;
+    const url = `http://localhost:4200/auth/verify/${token}`;
+    // const url = `https://realauthor.com/auth/verify/${token}`;
     // const url = `https://author.piattaforma.store/auth/verify/${token}`;
     const mailOptions = {
       from: "noreplay@realauthor.com",
@@ -37,7 +38,8 @@ class ConfirmMailService {
   }
 
   sendResetPassword({ to, token, id }) {
-    const url = `https://realauthor.com/authentication/reset-password-v2?token=${token}&id=${id}`;
+    const url = `http://localhost:4200/pages/authentication/reset-password-v2?token=${token}&id=${id}`;
+    // const url = `https://realauthor.com/authentication/reset-password-v2?token=${token}&id=${id}`;
     const mailOptions = {
       from: "noreplay@realauthor.com",
       to: to,

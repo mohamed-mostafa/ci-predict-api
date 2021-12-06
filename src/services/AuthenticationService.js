@@ -78,7 +78,6 @@ class AuthenticationService extends baseService {
     if (elapsedTime < delay) {
       return;
     }
-    console.log(email);
     const token = this.crypto.generateRandomNumber();
     const tokenTime = Date.now();
     const tokenExpiration = Date.now() + expiration;
@@ -97,7 +96,7 @@ class AuthenticationService extends baseService {
   }
 
   async verifyResetPassword({ id, token }) {
-    const user = await User.getById(id, {});
+    const user = await User.getById(id);
     if (!user) {
       throw new this.ValidationError("There is no user this id");
     }
