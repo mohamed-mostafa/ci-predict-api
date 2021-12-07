@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { clientSide } = require("../config");
 
 class ConfirmMailService {
   constructor() {
@@ -17,7 +18,7 @@ class ConfirmMailService {
   }
 
   sendMail({ to, token }) {
-    const url = `http://localhost:4200/auth/verify/${token}`;
+    const url = `${clientSide.url}/auth/verify/${token}`;
     // const url = `https://realauthor.com/auth/verify/${token}`;
     // const url = `https://author.piattaforma.store/auth/verify/${token}`;
     const mailOptions = {
@@ -38,8 +39,7 @@ class ConfirmMailService {
   }
 
   sendResetPassword({ to, token, id }) {
-    const url = `http://localhost:4200/pages/authentication/reset-password-v2?token=${token}&id=${id}`;
-    // const url = `https://realauthor.com/authentication/reset-password-v2?token=${token}&id=${id}`;
+    const url = `${clientSide.url}/pages/authentication/reset-password-v2?token=${token}&id=${id}`;
     const mailOptions = {
       from: "noreplay@realauthor.com",
       to: to,
