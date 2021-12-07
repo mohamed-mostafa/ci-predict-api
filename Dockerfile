@@ -7,5 +7,5 @@ FROM node:10-slim
 COPY . /usr/src/app
 COPY --from=builder /usr/src/app /usr/src/app
 WORKDIR /usr/src/app
-EXPOSE 8081
+EXPOSE 4200
 CMD [ "node", "app.js" ]
