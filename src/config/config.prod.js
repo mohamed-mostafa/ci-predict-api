@@ -31,7 +31,7 @@ module.exports = {
       "thisKeyIsUsedForConformationOfEmailsInRealAuthorAppIknowYouCanNotKnowThisKeyBecauseImadeIt",
   },
   mongo: {
-    url: `mongodb://authorship:1klzbuneIKOHXrRGsR5Ed5FAvsqMsg@162.240.10.41:27018/authorship`,
+    url: process.env.MONGO_URL,
   },
   clientSide: {
     url: "https://realauthor.com",
